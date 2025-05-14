@@ -13,22 +13,26 @@ public class LecturerHttpController {
     public void createNewLecturer() {}
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/{lecturer-id}")
-    public void updateLecturer(@PathVariable("lecturer-id") Integer lecturerId) {}
+    @PatchMapping(value = "/{lecturer-id}", consumes = "multipart/form-data")
+    public void updateLecturerDetailsViaMultipart(@PathVariable("lecturer-id") Integer lecturerId) {}
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(value = "/{lecturer-id}", consumes = "application/json")
+    public void updateLecturerDetailsViaJson(@PathVariable("lecturer-id") Integer lecturerId) {}
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{lecturer-id}")
     public void deleteLecturer(@PathVariable("lecturer-id") Integer lecturerId) {}
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public void getAllLecturers() {}
 
-    @GetMapping("/{lecturer-id}")
+    @GetMapping(value = "/{lecturer-id}", produces = "application/json")
     public void getLecturerDetails(@PathVariable("lecturer-id") Integer lecturerId) {}
 
-    @GetMapping(params = "type=full-time")
+    @GetMapping(params = "type=full-time", produces = "application/json")
     public void getFullTimeLecturers() {}
 
-    @GetMapping(params = "type=visiting")
+    @GetMapping(params = "type=visiting", produces = "application/json")
     public void getVisitingLecturers() {}
 }
