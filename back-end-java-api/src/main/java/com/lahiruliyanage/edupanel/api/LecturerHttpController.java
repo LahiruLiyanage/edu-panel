@@ -1,5 +1,6 @@
 package com.lahiruliyanage.edupanel.api;
 
+import com.lahiruliyanage.edupanel.to.request.LecturerReqTo;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,9 @@ public class LecturerHttpController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "multipart/form-data", produces = "application/json")
-    public void createNewLecturer() {}
+    public void createNewLecturer(@ModelAttribute LecturerReqTo lecturerReqTo) {
+        System.out.println(lecturerReqTo);
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(value = "/{lecturer-id}", consumes = "multipart/form-data")
