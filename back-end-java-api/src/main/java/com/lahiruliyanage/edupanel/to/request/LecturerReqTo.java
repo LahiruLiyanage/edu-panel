@@ -1,6 +1,7 @@
 package com.lahiruliyanage.edupanel.to.request;
 
 import com.lahiruliyanage.edupanel.tuil.LecturerType;
+import com.lahiruliyanage.edupanel.validation.LecturerImage;
 import jakarta.validation.constraints.*;
 import jakarta.validation.groups.Default;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,7 @@ public class LecturerReqTo implements Serializable {
     @NotNull(groups = Update.class, message = "Display order cannot be empty")
     @PositiveOrZero(groups = Update.class, message = "Invalid display order")
     private Integer displayOrder;
+    @LecturerImage
     private MultipartFile picture;
     @Pattern(regexp = "http(s)://.+$",message = "Invalid linkedin url")
     private String linkedIn;
