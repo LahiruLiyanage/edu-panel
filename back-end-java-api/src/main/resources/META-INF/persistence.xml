@@ -6,6 +6,10 @@
   <persistence-unit name="default">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+    <class>com.lahiruliyanage.edupanel.entity.Lecturer</class>
+    <class>com.lahiruliyanage.edupanel.entity.Picture</class>
+    <class>com.lahiruliyanage.edupanel.entity.LinkedIn</class>
+
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/edupanel"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

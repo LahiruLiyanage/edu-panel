@@ -4,6 +4,7 @@ import com.lahiruliyanage.edupanel.tuil.LecturerType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,11 +31,38 @@ public class Lecturer implements Serializable {
     @Column(name = "display order", nullable = false)
     private int displayOrder;
 
+    @ToString.Exclude
+    @OneToOne(mappedBy = "lecturer")
+    private Picture picture;
+
+    @ToString.Exclude
+    @OneToOne(mappedBy = "lecturer")
+    private LinkedIn linkedIn;
+
     public Lecturer(String name, String designation, String qualifications, LecturerType type, int displayOrder) {
         this.name = name;
         this.designation = designation;
         this.qualifications = qualifications;
         this.type = type;
         this.displayOrder = displayOrder;
+    }
+
+    public Lecturer(int id, String name, String designation, String qualifications, LecturerType type, int displayOrder) {
+        this.id = id;
+        this.name = name;
+        this.designation = designation;
+        this.qualifications = qualifications;
+        this.type = type;
+        this.displayOrder = displayOrder;
+    }
+
+    public void setPicture(Picture picture) {
+        if (picture != null) picture.setLecturer(this);
+        this.picture = picture;
+    }
+
+    public void setLinkedIn(LinkedIn linkedIn) {
+        if (linkedIn != null) linkedIn.setLecturer(this);
+        this.linkedIn = linkedIn;
     }
 }
