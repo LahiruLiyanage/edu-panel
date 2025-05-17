@@ -11,12 +11,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "picture")
-public class Picture implements Serializable {
+@Table(name = "linkedin")
+public class LinkedIn implements Serializable {
     @Id
     @OneToOne
     @JoinColumn(name = "lecturer_id", referencedColumnName = "id")
-    Lecturer lecturer;
-    @Column(name = "picture_path", nullable = false, length = 400)
-    String picturePath;
+    private Lecturer lecturer;
+    @Column(nullable = false, length = 2000)
+    private String url;
 }
