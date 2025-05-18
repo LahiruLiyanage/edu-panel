@@ -28,7 +28,7 @@ public class Lecturer implements Serializable {
     @Column(nullable = false, columnDefinition = "ENUM('FULL_TIME','VISITING')")
     @Enumerated(EnumType.STRING) // When Using Enum we have to specify this
     private LecturerType type;
-    @Column(name = "display order", nullable = false)
+    @Column(name = "display_order", nullable = false)
     private int displayOrder;
 
     @ToString.Exclude

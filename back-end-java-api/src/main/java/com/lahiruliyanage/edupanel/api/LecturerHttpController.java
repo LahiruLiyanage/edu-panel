@@ -1,19 +1,37 @@
 package com.lahiruliyanage.edupanel.api;
 
+import com.lahiruliyanage.edupanel.entity.Lecturer;
 import com.lahiruliyanage.edupanel.to.request.LecturerReqTo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityManager;
 
 @RestController
 @RequestMapping("/api/v1/lecturers")
 @CrossOrigin
 public class LecturerHttpController {
 
+    @Autowired
+    private EntityManager entityManager;
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "multipart/form-data", produces = "application/json")
     public void createNewLecturer(@ModelAttribute @Validated(LecturerReqTo.Create.class) LecturerReqTo lecturerReqTo) {
-        System.out.println(lecturerReqTo);
+        entityManager.getTransaction().begin();
+        try {
+            Lecturer lecturer = new Lecturer(   lecturerReqTo.getName(),
+                                                lecturerReqTo.getDesignation(),
+                                                lecturerReqTo.getQualification(),
+                                                lecturerReqTo.getType(),
+                                                lecturerReqTo.getDisplayOrder() );
+            entityManager.getTransaction().commit();
+        } catch (Throwable throwable) {
+            entityManager.getTransaction().rollback();
+            throw throwable;
+        }
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
