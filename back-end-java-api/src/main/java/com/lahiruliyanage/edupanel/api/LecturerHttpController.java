@@ -1,7 +1,10 @@
 package com.lahiruliyanage.edupanel.api;
 
 import com.lahiruliyanage.edupanel.entity.Lecturer;
+import com.lahiruliyanage.edupanel.entity.LinkedIn;
+import com.lahiruliyanage.edupanel.entity.Picture;
 import com.lahiruliyanage.edupanel.to.request.LecturerReqTo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -16,17 +19,31 @@ public class LecturerHttpController {
 
     @Autowired
     private EntityManager entityManager;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = "multipart/form-data", produces = "application/json")
     public void createNewLecturer(@ModelAttribute @Validated(LecturerReqTo.Create.class) LecturerReqTo lecturerReqTo) {
         entityManager.getTransaction().begin();
         try {
-            Lecturer lecturer = new Lecturer(   lecturerReqTo.getName(),
-                                                lecturerReqTo.getDesignation(),
-                                                lecturerReqTo.getQualification(),
-                                                lecturerReqTo.getType(),
-                                                lecturerReqTo.getDisplayOrder() );
+            // We can use Model Mapper for this, From using ModelMapper, we can use intelligent Mapping
+            Lecturer lecturer = modelMapper.map(lecturerReqTo, Lecturer.class);
+            lecturer.setPicture(null);
+            lecturer.setLinkedIn(null);
+
+            System.out.println(lecturer);
+
+            entityManager.persist(lecturer);
+
+            if (lecturerReqTo.getLinkedIn() != null) {
+                entityManager.persist(new LinkedIn(lecturer, lecturerReqTo.getLinkedIn()));
+            }
+
+            if (lecturerReqTo.getPicture() != null) {
+                entityManager.persist(new Picture(lecturer, "lecturers/" + lecturer.getId()));
+            }
+
             entityManager.getTransaction().commit();
         } catch (Throwable throwable) {
             entityManager.getTransaction().rollback();
